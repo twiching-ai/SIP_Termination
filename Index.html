@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crystal-Clear, Scalable SIP Termination | Twiching</title>
+    <meta name="description" content="Route voice traffic reliably and globally with next-gen SIP connectivity. Experience seamless, secure, and cost-effective communication solutions.">
+    <meta property="og:title" content="Crystal-Clear, Scalable SIP Termination">
+    <meta property="og:description" content="Route voice traffic reliably and globally with next-gen SIP connectivity.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Three.js for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-blue: #2A62F3;
+            --light-gray: #F4F6FA;
+            --dark-text: #1a1a1a;
+            --medium-text: #4a5568;
+            --light-text: #718096;
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--white);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--medium-text);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: var(--dark-text);
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            color: var(--medium-text);
+            margin-bottom: 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: var(--primary-blue);
+            padding: 12px 24px;
+            border: 2px solid var(--primary-blue);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-button:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .hero-animation {
+            height: 400px;
+            position: relative;
+        }
+
+        #hero-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Section Base Styles */
+        .section {
+            padding: 80px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--dark-text);
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--medium-text);
+            text-align: center;
+            margin-bottom: 64px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* What is SIP Section */
+        .sip-explanation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .sip-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--medium-text);
+        }
+
+        .sip-visual {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--primary-blue);
+        }
+
+        /* How It Works */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 32px 16px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .process-step:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -32px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: var(--primary-blue);
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        .step-number {
+            background: var(--primary-blue);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-weight: 600;
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-text);
+        }
+
+        .step-description {
+            font-size: 14px;
+            color: var(--medium-text);
+        }
+
+        /* Comparison Section */
+        .comparison {
+            background: var(--light-gray);
+        }
+
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .comparison-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--dark-text);
+        }
+
+        .card-content {
+            color: var(--medium-text);
+            line-height: 1.7;
+        }
+
+        /* Industries Grid */
+        .industries-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .industry-card {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .industry-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .industry-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--primary-blue);
+        }
+
+        .industry-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-text);
+        }
+
+        .industry-description {
+            font-size: 14px;
+            color: var(--medium-text);
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .benefit-card {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .benefit-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--primary-blue);
+        }
+
+        .benefit-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark-text);
+        }
+
+        .benefit-description {
+            color: var(--medium-text);
+            font-size: 14px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--light-gray);
+        }
+
+        .testimonials-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial-card {
+            min-width: 400px;
+            background: var(--white);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin: 0 16px;
+            text-align: center;
+        }
+
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .testimonial-quote {
+            font-style: italic;
+            margin-bottom: 16px;
+            color: var(--medium-text);
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .testimonial-role {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .nav-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #1d4ed8;
+            transform: scale(1.1);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #1d4ed8 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section .section-title {
+            color: white;
+        }
+
+        .cta-section .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .glow-button {
+            background: white;
+            color: var(--primary-blue);
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            border-radius: 10px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            animation: glowing 2s linear infinite;
+            background-size: 400%;
+        }
+
+        .glow-button:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+
+        /* FAQ Section */
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 24px 0;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark-text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 0 24px 0;
+            color: var(--medium-text);
+            line-height: 1.7;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-icon.rotated {
+            transform: rotate(45deg);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-text);
+            color: white;
+            padding: 64px 0 32px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-column h3 {
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 24px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .sip-explanation {
+                grid-template-columns: 1fr;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .process-step::after {
+                display: none;
+            }
+
+            .comparison-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .industries-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">Twiching</div>
+            <ul class="nav-menu">
+                <li><a href="#products">Products</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="https://www.twiching.ai/" class="cta-button">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Crystal-Clear, Scalable SIP Termination</h1>
+                <p>Route voice traffic reliably and globally with next-gen SIP connectivity.</p>
+                <div class="hero-buttons">
+                    <a href="https://www.twiching.ai/" class="cta-button">Book a Demo</a>
+                    <a href="https://www.twiching.ai/" class="secondary-button">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-animation">
+                <canvas id="hero-canvas"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section cta-section" id="demo">
+        <div class="container">
+            <h2 class="section-title">Ready to Elevate Your Voice Infrastructure?</h2>
+            <p class="section-subtitle">Start routing calls with wholesale VoIP! Direct CLI & Non-CLI Routes, Virtual Numbers — Best Rates Guaranteed.</p>
+            <a href="https://www.twiching.ai/" class="glow-button">Book a Free Demo</a>
+        </div>
+    </section>
+
+    <script>
+        // Three.js Hero Animation
+        let scene, camera, renderer, geometry, material, mesh;
+        let particles = [];
+
+        function initHeroAnimation() {
+            const canvas = document.getElementById('hero-canvas');
+            const container = canvas.parentElement;
+            
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(container.offsetWidth, container.offsetHeight);
+            renderer.setClearColor(0x000000, 0);
+
+            // Create network mesh
+            const nodes = [];
+            const nodeCount = 15;
+            
+            // Create nodes
+            for (let i = 0; i < nodeCount; i++) {
+                const nodeGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+                const nodeMaterial = new THREE.MeshBasicMaterial({ 
+                    color: 0x2A62F3,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
+                
+                node.position.x = (Math.random() - 0.5) * 4;
+                node.position.y = (Math.random() - 0.5) * 4;
+                node.position.z = (Math.random() - 0.5) * 2;
+                
+                scene.add(node);
+                nodes.push(node);
+            }
+
+            // Create connections between nodes
+            const connections = [];
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const distance = nodes[i].position.distanceTo(nodes[j].position);
+                    if (distance < 2) {
+                        const lineGeometry = new THREE.BufferGeometry();
+                        const positions = new Float32Array([
+                            nodes[i].position.x, nodes[i].position.y, nodes[i].position.z,
+                            nodes[j].position.x, nodes[j].position.y, nodes[j].position.z
+                        ]);
+                        lineGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                        
+                        const lineMaterial = new THREE.LineBasicMaterial({ 
+                            color: 0x2A62F3,
+                            transparent: true,
+                            opacity: 0.3
+                        });
+                        const line = new THREE.Line(lineGeometry, lineMaterial);
+                        scene.add(line);
+                        connections.push({ line, nodes: [nodes[i], nodes[j]] });
+                    }
+                }
+            }
+
+            camera.position.z = 5;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate the entire scene slowly
+                scene.rotation.y += 0.005;
+                scene.rotation.x += 0.002;
+                
+                // Update node positions slightly
+                nodes.forEach((node, index) => {
+                    node.position.y += Math.sin(Date.now() * 0.001 + index) * 0.002;
+                });
+                
+                // Update connection lines
+                connections.forEach(connection => {
+                    const positions = connection.line.geometry.attributes.position.array;
+                    positions[0] = connection.nodes[0].position.x;
+                    positions[1] = connection.nodes[0].position.y;
+                    positions[2] = connection.nodes[0].position.z;
+                    positions[3] = connection.nodes[1].position.x;
+                    positions[4] = connection.nodes[1].position.y;
+                    positions[5] = connection.nodes[1].position.z;
+                    connection.line.geometry.attributes.position.needsUpdate = true;
+                });
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle resize
+            window.addEventListener('resize', () => {
+                const newWidth = container.offsetWidth;
+                const newHeight = container.offsetHeight;
+                camera.aspect = newWidth / newHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(newWidth, newHeight);
+            });
+        }
+
+        // Initialize hero animation when page loads
+        window.addEventListener('load', initHeroAnimation);
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Testimonial carousel
+        let currentTestimonial = 0;
+        const testimonialTrack = document.getElementById('testimonials-track');
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        const totalTestimonials = testimonialCards.length;
+
+        function updateTestimonialPosition() {
+            const translateX = -currentTestimonial * (432); // 400px width + 32px margin
+            testimonialTrack.style.transform = `translateX(${translateX}px)`;
+        }
+
+        function nextTestimonial() {
+            currentTestimonial = (currentTestimonial + 1) % totalTestimonials;
+            updateTestimonialPosition();
+        }
+
+        function previousTestimonial() {
+            currentTestimonial = (currentTestimonial - 1 + totalTestimonials) % totalTestimonials;
+            updateTestimonialPosition();
+        }
+
+        // Auto-advance testimonials
+        setInterval(nextTestimonial, 5000);
+
+        // FAQ functionality
+        function toggleFAQ(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                if (ans !== answer) {
+                    ans.classList.remove('active');
+                }
+            });
+            
+            document.querySelectorAll('.faq-icon').forEach(ic => {
+                if (ic !== icon) {
+                    ic.classList.remove('rotated');
+                    ic.textContent = '+';
+                }
+            });
+            
+            // Toggle current FAQ
+            answer.classList.toggle('active');
+            icon.classList.toggle('rotated');
+            icon.textContent = answer.classList.contains('active') ? '−' : '+';
+        }
+
+        // Scroll animations
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        function checkForVisibleElements() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                if (isElementInViewport(element)) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Check on scroll and initial load
+        window.addEventListener('scroll', checkForVisibleElements);
+        window.addEventListener('load', checkForVisibleElements);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Reduced motion support
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            // Disable animations for users who prefer reduced motion
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.transition = 'none';
+            });
+        }
+    </script>
+
+    <!-- What is SIP Termination -->
+    <section class="section" id="learn-more">
+        <div class="container">
+            <h2 class="section-title fade-in">What is SIP Termination?</h2>
+            <div class="sip-explanation">
+                <div class="sip-visual fade-in">
+                    📞
+                </div>
+                <div class="sip-content fade-in">
+                    <p>SIP Termination routes voice calls using Session Initiation Protocol (SIP). It connects VoIP calls to PSTN, mobile networks and other systems. Ideal for enterprises and telecom providers, it supports high-volume traffic.</p>
+                    <p>Enhancing communication reliability, SIP Termination ensures seamless connectivity and crystal-clear voice quality for businesses worldwide.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">How It Works</h2>
+            <p class="section-subtitle fade-in">A seamless 5-step process that ensures reliable voice communication</p>
+            <div class="process-steps">
+                <div class="process-step fade-in">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Call Initiation</div>
+                    <div class="step-description">A VoIP user initiates a call using a SIP-compatible device or software</div>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">2</div>
+                    <div class="step-title">SIP Signaling</div>
+                    <div class="step-description">The SIP protocol sends signaling information to the provider</div>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Termination Routing</div>
+                    <div class="step-description">Optimal routing path is determined for the destination</div>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Real-Time Communication</div>
+                    <div class="step-description">Voice data is transmitted with high quality and low latency</div>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Analytics & Completion</div>
+                    <div class="step-description">Call completion with detailed analytics and monitoring</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why SIP over Legacy -->
+    <section class="section comparison">
+        <div class="container">
+            <h2 class="section-title fade-in">Why SIP over Legacy?</h2>
+            <p class="section-subtitle fade-in">Compare the advantages of modern SIP termination versus traditional telephony</p>
+            <div class="comparison-cards">
+                <div class="comparison-card fade-in">
+                    <h3 class="card-title">Benefits of SIP Termination</h3>
+                    <div class="card-content">
+                        SIP termination reduces operational costs and increases flexibility. It enables scalable communication solutions, easier maintenance, and advanced features like video conferencing and IVR systems. SIP ensures high-quality calls with low latency.
+                    </div>
+                </div>
+                <div class="comparison-card fade-in">
+                    <h3 class="card-title">Limitations of Traditional Telephony</h3>
+                    <div class="card-content">
+                        Traditional telephony limits flexibility and scalability with legacy PSTN networks. Hardware-dependent infrastructure increases maintenance costs and struggles with call quality issues. It lacks advanced features, hindering productivity and efficiency.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries We Serve -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Industries We Serve</h2>
+            <p class="section-subtitle fade-in">SIP termination empowers diverse industries with efficient, secure, and reliable communication</p>
+            <div class="industries-grid">
+                <div class="industry-card fade-in">
+                    <div class="industry-icon">🏥</div>
+                    <div class="industry-title">Healthcare</div>
+                    <div class="industry-description">Secure, compliant communication for patient care</div>
+                </div>
+                <div class="industry-card fade-in">
+                    <div class="industry-icon">🛒</div>
+                    <div class="industry-title">Retail</div>
+                    <div class="industry-description">Enhanced customer service and support</div>
+                </div>
+                <div class="industry-card fade-in">
+                    <div class="industry-icon">💰</div>
+                    <div class="industry-title">Finance</div>
+                    <div class="industry-description">Secure transactions and client communications</div>
+                </div>
+                <div class="industry-card fade-in">
+                    <div class="industry-icon">🚀</div>
+                    <div class="industry-title">Startups</div>
+                    <div class="industry-description">Scalable solutions for growing businesses</div>
+                </div>
+                <div class="industry-card fade-in">
+                    <div class="industry-icon">🏛️</div>
+                    <div class="industry-title">Government</div>
+                    <div class="industry-description">Reliable, secure government communications</div>
+                </div>
+                <div class="industry-card fade-in">
+                    <div class="industry-icon">🎓</div>
+                    <div class="industry-title">Education</div>
+                    <div class="industry-description">Connect students, faculty, and staff</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Benefits -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Key Benefits</h2>
+            <p class="section-subtitle fade-in">Discover why businesses choose our SIP termination services</p>
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">💰</div>
+                    <div class="benefit-title">Cost Efficiency</div>
+                    <div class="benefit-description">Significantly reduce communication costs with internet-based calling</div>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">🌍</div>
+                    <div class="benefit-title">Global Connectivity</div>
+                    <div class="benefit-description">Connect with customers worldwide through our extensive network</div>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">🔧</div>
+                    <div class="benefit-title">Easy Integration</div>
+                    <div class="benefit-description">Seamlessly integrate with existing PBX and VoIP systems</div>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">📈</div>
+                    <div class="benefit-title">Scalability</div>
+                    <div class="benefit-description">Scale your communication infrastructure as your business grows</div>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">🏠</div>
+                    <div class="benefit-title">Remote Flexibility</div>
+                    <div class="benefit-description">Enable remote work with calls from anywhere, on any device</div>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">📞</div>
+                    <div class="benefit-title">Enhanced Call Quality</div>
+                    <div class="benefit-description">Crystal-clear voice quality with minimal latency and dropouts</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials">
+        <div class="container">
+            <h2 class="section-title fade-in">What Our Customers Say</h2>
+            <div class="testimonials-container">
+                <div class="testimonials-track" id="testimonials-track">
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">DC</div>
+                        <div class="testimonial-quote">"We finally have a reliable, scalable communication solution that supports our growth and keeps our remote teams connected seamlessly."</div>
+                        <div class="testimonial-name">David Chen</div>
+                        <div class="testimonial-role">IT Director at FutureTech Corp</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">AR</div>
+                        <div class="testimonial-quote">"SIP termination's high-quality, crystal-clear calls have enhanced our customer interactions and strengthened our client relationships."</div>
+                        <div class="testimonial-name">Amanda Rivera</div>
+                        <div class="testimonial-role">Customer Success Lead at BrightPath Ventures</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">ML</div>
+                        <div class="testimonial-quote">"The setup was quick, and the flexibility SIP termination offers is perfect for our on-the-go workforce. Excellent service and support!"</div>
+                        <div class="testimonial-name">Michael Lee</div>
+                        <div class="testimonial-role">Founder of Urban Connect</div>
+                    </div>
+                </div>
+                <div class="testimonial-nav">
+                    <button class="nav-btn" onclick="previousTestimonial()">‹</button>
+                    <button class="nav-btn" onclick="nextTestimonial()">›</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- FAQ Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item fade-in">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What is SIP Termination?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        SIP termination routes voice calls from VoIP networks to PSTN, mobile, or other systems, enabling seamless communication between different network types.
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How does SIP Termination save costs?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        SIP termination uses internet protocol instead of traditional phone lines, significantly reducing per-minute costs and eliminating the need for expensive hardware infrastructure.
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Is SIP Termination secure?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Yes, our SIP termination service uses advanced encryption protocols and secure communication channels to protect your voice data and ensure privacy.
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Can I integrate SIP Termination with my existing PBX system?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Absolutely! Our SIP termination service is designed to integrate seamlessly with most existing PBX systems and VoIP platforms with minimal configuration.
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What are the benefits of SIP Termination for remote work?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        SIP termination enables employees to make and receive calls from anywhere with an internet connection, using any device, making it perfect for remote and hybrid work environments.
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How do I get started with SIP Termination?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Getting started is easy! Contact our team for a consultation, and we'll help you configure your settings, integrate with your existing systems, and optimize your setup for the best performance.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Products</h3>
+                    <ul>
+                        <li><a href="#phone-numbers">Virtual Phone Numbers</a></li>
+                        <li><a href="#local-numbers">Local Phone Numbers</a></li>
+                        <li><a href="#business-numbers">Business Phone Numbers</a></li>
+                        <li><a href="#vanity-numbers">Vanity Phone Numbers</a></li>
+                        <li><a href="#second-numbers">Second Phone Numbers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Voice Services</h3>
+                    <ul>
+                        <li><a href="#voice-termination">Voice Termination</a></li>
+                        <li><a href="#sip-termination">SIP Termination</a></li>
+                        <li><a href="#voip-wholesale">VoIP Wholesaler</a></li>
+                        <li><a href="#contact-center">Contact Center</a></li>
+                        <li><a href="#call-termination">Call Termination</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Solutions</h3>
+                    <ul>
+                        <li><a href="#az-termination">A-Z Termination</a></li>
+                        <li><a href="#voice-traffic">Voice Traffic</a></li>
+                        <li><a href="#call-routing">Call Routing</a></li>
+                        <li><a href="#interconnect">Interconnect Solution</a></li>
+                        <li><a href="#healthcare">Healthcare</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                    </ul>
+                    <div style="margin-top: 24px;">
+                        <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                            📍 1 Tampines North Drive 1, T-Space, Singapore 528559<br>
+                            📞 +1 551-381-3501<br>
+                            ✉️ info@twichinggeneraltrading.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Twiching General Trading LLC, All Rights Reserved. | 
+                <a href="#privacy" style="color: rgba(255, 255, 255, 0.7);">Privacy Policy</a> | 
+                <a href="#terms" style="color: rgba(255, 255, 255, 0.7);">Terms And Conditions</a></p>
+            </div>
+        </div>
+    </footer>
